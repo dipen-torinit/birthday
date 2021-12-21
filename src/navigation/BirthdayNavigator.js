@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -14,11 +14,16 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export function BirthdayNavigator() {
-  const { state } = useContext(AuthContext);
+  const { state, authenticate } = useContext(AuthContext);
+
+  useEffect(() => {
+    console.log("Check if user is already login!");
+    authenticate();
+  }, []);
 
   return (
     <NavigationContainer>
-      {state.isAuthenticating ? (
+      {state.token ? (
         <Tab.Navigator>
           <Tab.Screen
             name={SCREENS.TodaysBirthday}
