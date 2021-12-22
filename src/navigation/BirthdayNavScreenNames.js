@@ -3,4 +3,6 @@ export const SCREENS = {
   SignUp: "Sign Up",
   TodaysBirthday: "Todays Birthday",
   BirthdayList: "Birthday List",
+  AddBirthday: "Add Birthday",
+  Settings: "Settings",
 };

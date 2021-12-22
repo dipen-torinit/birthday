@@ -6,8 +6,8 @@ import { SCREENS } from "../../navigation/BirthdayNavScreenNames";
 export default function SignInScreen({ navigation }) {
   const { signIn } = useContext(AuthContext);
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("dipen@torinit.ca");
+  const [password, setPassword] = useState("torinit@dipen");
 
   const executeSignIn = () => {
     signIn({ username: username, password: password });

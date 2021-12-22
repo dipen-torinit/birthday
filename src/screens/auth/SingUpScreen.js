@@ -8,7 +8,7 @@ export default function SignUpScreen({ navigation }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const executeSignIn = () => {
+  const executeSignUp = () => {
     signUp({ username: username, password: password });
   };
 
@@ -35,7 +35,7 @@ export default function SignUpScreen({ navigation }) {
       <Button
         title="Sign Up"
         onPress={() => {
-          executeSignIn();
+          executeSignUp();
         }}
       />
 

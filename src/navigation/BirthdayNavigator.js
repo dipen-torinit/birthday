@@ -9,11 +9,15 @@ import BirthdayListScreen from "../screens/birthday/BirthdayListScreen";
 import TodaysBirthdayScreen from "../screens/birthday/TodaysBirthdayScreen";
 import { SCREENS } from "./BirthdayNavScreenNames";
 import { Context as AuthContext } from "../context/AuthContext";
+import SettingsScreen from "../screens/SettingsScreen";
+import AddBirthdayScreen from "../screens/birthday/AddBirthdayScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export function BirthdayNavigator() {
+  console.log("BirthdayNavigator");
+
   const { state, authenticate } = useContext(AuthContext);
 
   useEffect(() => {
@@ -33,6 +37,11 @@ export function BirthdayNavigator() {
             name={SCREENS.BirthdayList}
             component={BirthdayListScreen}
           />
+          <Tab.Screen
+            name={SCREENS.AddBirthday}
+            component={AddBirthdayScreen}
+          />
+          <Tab.Screen name={SCREENS.Settings} component={SettingsScreen} />
         </Tab.Navigator>
       ) : (
         <Stack.Navigator>

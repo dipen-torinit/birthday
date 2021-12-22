@@ -1,4 +1,15 @@
+export const LOADING = "LOADING";
+
 export const AUTHENTICATE = "AUTHENTICATE";
 export const SIGNUP = "SIGNUP";
 export const SIGNIN = "SIGNIN";
 export const SIGNOUT = "SIGNOUT";
+
+export const GETBIRTHDAY = "GETBIRTHDAY";
+export const ADDBIRTHDAY = "ADDBIRTHDAY";
+export const DELETEBIRTHDAY = "DELETEBIRTHDAY";
+
+export const RESULT_DEFAULT = "RESULT_DEFAULT";
+export const RESULT_LOADING = "RESULT_LOADING";
+export const RESULT_SUCCESS = "RESULT_SUCCESS";
+export const RESULT_FAILURE = "RESULT_FAILURE";
