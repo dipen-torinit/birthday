@@ -22,6 +22,7 @@ export default function TodaysBirthdayScreen() {
               <Text>{item.item.name}</Text>
               <Text>{item.item.email}</Text>
               <Text>{item.item.phone}</Text>
+              <Text>{item.item.date}</Text>
             </View>
           );
         }}

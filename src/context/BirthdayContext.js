@@ -59,6 +59,7 @@ const getBirthday = (dispatch) => {
             people.push({ ...temp, id: item.key });
           });
 
+          console.log(people);
           dispatch({
             type: GETBIRTHDAY,
             hasSucceeded: true,
@@ -98,14 +99,11 @@ const addBirthday = (dispatch) => {
     const postListRef = ref(getDatabase(), token + "/people");
     const newPostRef = push(postListRef);
     set(newPostRef, newItem)
-      .then((res) => {
-        console.log(res);
-        console.log("success");
-
+      .then(() => {
         dispatch({
           type: ADDBIRTHDAY,
           hasSucceeded: false,
-          data: newItem,
+          data: { ...newItem, id: newPostRef.key }, //Adding newly generated key in our local object for flatlist
         });
       })
       .catch((error) => {
