@@ -38,12 +38,19 @@ export default function AddBirthdayScreen() {
   const { name, email, phone, date } = formFields;
 
   useEffect(() => {
-    setDisableActionButton(
-      isNotEmpty(formFields.name.error) ||
-        isNotEmpty(formFields.email.error) ||
-        isNotEmpty(formFields.phone.error) ||
-        isNotEmpty(formFields.date.error)
-    );
+    if (
+      isNotEmpty(formFields.name.value) &&
+      isNotEmpty(formFields.email.value) &&
+      isNotEmpty(formFields.phone.value) &&
+      isNotEmpty(formFields.date.value)
+    ) {
+      setDisableActionButton(
+        isNotEmpty(formFields.name.error) ||
+          isNotEmpty(formFields.email.error) ||
+          isNotEmpty(formFields.phone.error) ||
+          isNotEmpty(formFields.date.error)
+      );
+    }
   }, [formFields]);
 
   //After text change

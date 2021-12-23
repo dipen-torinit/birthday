@@ -1,3 +1,11 @@
+export const isValidUsername = (uname) => {
+  return uname.trim().length > 8;
+};
+
+export const isValidPassword = (pwd) => {
+  return pwd.trim().length > 8;
+};
+
 export const isValidName = (name) => {
   var nameRegex = /^[A-Za-z]{2,40}()+$/;
   return nameRegex.test(name);

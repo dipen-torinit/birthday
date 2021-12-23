@@ -1,39 +1,94 @@
-import React, { useContext, useState } from "react";
-import { Button, StyleSheet, TextInput, View } from "react-native";
+import React, { useContext, useState, useEffect } from "react";
+import { Button, View } from "react-native";
+import {
+  isNotEmpty,
+  isValidPassword,
+  isValidUsername,
+} from "../../common/Validation";
+import InputField from "../../components/InputField";
+import SubmitButton from "../../components/SubmitButton";
 import { Context as AuthContext } from "../../context/AuthContext";
+import { SCREENS } from "../../navigation/BirthdayNavScreenNames";
 
 export default function SignUpScreen({ navigation }) {
+  //Context
   const { signUp } = useContext(AuthContext);
-
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-
   const executeSignUp = () => {
-    signUp({ username: username, password: password });
+    signUp({ username: username.value, password: password.value });
+  };
+
+  //Local state
+  const [disableActionButton, setDisableActionButton] = useState(true);
+  const [formFields, setFormField] = useState({
+    username: { value: "", error: "" },
+    password: { value: "", error: "" },
+  });
+  const { username, password } = formFields;
+
+  useEffect(() => {
+    if (
+      isNotEmpty(formFields.username.value) &&
+      isNotEmpty(formFields.password.value)
+    ) {
+      setDisableActionButton(
+        isNotEmpty(formFields.username.error) ||
+          isNotEmpty(formFields.password.error)
+      );
+    }
+  }, [formFields]);
+
+  //After text change
+  const afterTextChange = (fieldname, fieldvalue) => {
+    let errorMessage = "";
+    switch (fieldname) {
+      case "username":
+        errorMessage = isValidUsername(fieldvalue)
+          ? ""
+          : "Username should contain 8 or more character";
+        break;
+      case "password":
+        errorMessage = isValidPassword(fieldvalue)
+          ? ""
+          : "Password should contain 8 or more character";
+        break;
+    }
+
+    setFormField({
+      ...formFields,
+      [fieldname]: { value: fieldvalue, error: errorMessage },
+    });
+
+    /**
+     * Once the value is set we want to verify if their is any error and based on that we want to enable/disable button
+     * but setState(setFormField) is asynchronous call so we will not get the latest updated value on this line from "formFields".
+     *
+     * For that we need to use useEffect hook, it will get callled once the "formFields" is updated properly
+     **/
   };
 
   return (
     <View>
-      <TextInput
+      <InputField
         placeholder="Enter username"
-        style={styles.textInput}
-        defaultValue={username}
+        defaultValue={username.value}
+        errorMessage={username.error}
         onChangeText={(text) => {
-          setUsername(text);
+          afterTextChange("username", text);
         }}
         autoCapitalize="none"
       />
-      <TextInput
+      <InputField
         placeholder="Enter password"
-        style={styles.textInput}
-        secureTextEntry={true}
+        defaultValue={password.value}
+        errorMessage={password.error}
         onChangeText={(text) => {
-          setPassword(text);
+          afterTextChange("password", text);
         }}
-        defaultValue={password}
+        secureTextEntry={true}
       />
-      <Button
-        title="Sign Up"
+      <SubmitButton
+        label="Sign Up"
+        disabled={disableActionButton}
         onPress={() => {
           executeSignUp();
         }}
@@ -42,17 +97,9 @@ export default function SignUpScreen({ navigation }) {
       <Button
         title="Sign In"
         onPress={() => {
-          navigation.goBack();
+          navigation.navigate(SCREENS.SignUp);
         }}
       />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  textInput: {
-    padding: 15,
-    margin: 10,
-    backgroundColor: "lightgrey",
-  },
-});
