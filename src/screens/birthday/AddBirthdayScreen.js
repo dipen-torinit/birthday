@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { View } from "react-native";
+import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
 import {
   isNotEmpty,
   isValidDate,
@@ -11,8 +11,9 @@ import InputField from "../../components/InputField";
 import SubmitButton from "../../components/SubmitButton";
 import { Context as AuthContext } from "../../context/AuthContext";
 import { Context as BirthdayContext } from "../../context/BirthdayContext";
+import { SCREENS } from "../../navigation/BirthdayNavScreenNames";
 
-export default function AddBirthdayScreen() {
+export default function AddBirthdayScreen({ navigation }) {
   //Context
   const authContext = useContext(AuthContext);
   const { addBirthday } = useContext(BirthdayContext);
@@ -20,6 +21,7 @@ export default function AddBirthdayScreen() {
     const { name, email, phone, date } = formFields;
     addBirthday({
       token: authContext.state.token,
+      image: image,
       name: name.value,
       email: email.value,
       phone: phone.value,
@@ -29,6 +31,7 @@ export default function AddBirthdayScreen() {
 
   //Local states
   const [disableActionButton, setDisableActionButton] = useState(true);
+  const [image, setImage] = useState("");
   const [formFields, setFormField] = useState({
     name: { value: "", error: "" },
     email: { value: "", error: "" },
@@ -84,8 +87,28 @@ export default function AddBirthdayScreen() {
      **/
   };
 
+  const onImageCapture = (data) => {
+    setImage(data.base64);
+  };
+
   return (
     <View>
+      <TouchableOpacity
+        style={styles.imagecontainer}
+        onPress={() => {
+          navigation.navigate(SCREENS.TakePicture, {
+            onImageCapture: onImageCapture.bind(this),
+          });
+        }}
+      >
+        <Image
+          style={styles.image}
+          source={{
+            uri: "data:image/png;base64," + image,
+          }}
+        />
+      </TouchableOpacity>
+
       <InputField
         placeholder="Enter name"
         defaultValue={name.value}
@@ -132,3 +155,13 @@ export default function AddBirthdayScreen() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  imagecontainer: { alignItems: "center", padding: 10 },
+  image: {
+    width: 100,
+    height: 100,
+    backgroundColor: "darkgray",
+    borderRadius: 25,
+  },
+});

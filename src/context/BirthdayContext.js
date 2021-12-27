@@ -59,7 +59,6 @@ const getBirthday = (dispatch) => {
             people.push({ ...temp, id: item.key });
           });
 
-          console.log(people);
           dispatch({
             type: GETBIRTHDAY,
             hasSucceeded: true,
@@ -85,12 +84,13 @@ const getBirthday = (dispatch) => {
 };
 
 const addBirthday = (dispatch) => {
-  return async ({ token, name, email, phone, date }) => {
+  return async ({ token, image, name, email, phone, date }) => {
     dispatch({
       type: LOADING,
     });
 
     const newItem = {
+      image: image,
       name: name,
       email: email,
       phone: phone,

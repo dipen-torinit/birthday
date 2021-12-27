@@ -11,6 +11,7 @@ import { SCREENS } from "./BirthdayNavScreenNames";
 import { Context as AuthContext } from "../context/AuthContext";
 import SettingsScreen from "../screens/SettingsScreen";
 import AddBirthdayScreen from "../screens/birthday/AddBirthdayScreen";
+import TakePictureScreen from "../screens/camera/TakePictureScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -37,10 +38,7 @@ export function BirthdayNavigator() {
             name={SCREENS.BirthdayList}
             component={BirthdayListScreen}
           />
-          <Tab.Screen
-            name={SCREENS.AddBirthday}
-            component={AddBirthdayScreen}
-          />
+          <Tab.Screen name={SCREENS.AddBirthdayTab} component={AddBirthday} />
           <Tab.Screen name={SCREENS.Settings} component={SettingsScreen} />
         </Tab.Navigator>
       ) : (
@@ -50,5 +48,14 @@ export function BirthdayNavigator() {
         </Stack.Navigator>
       )}
     </NavigationContainer>
+  );
+}
+
+function AddBirthday() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name={SCREENS.AddBirthday} component={AddBirthdayScreen} />
+      <Stack.Screen name={SCREENS.TakePicture} component={TakePictureScreen} />
+    </Stack.Navigator>
   );
 }

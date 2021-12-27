@@ -97,7 +97,7 @@ export default function SignUpScreen({ navigation }) {
       <Button
         title="Sign In"
         onPress={() => {
-          navigation.navigate(SCREENS.SignUp);
+          navigation.goBack();
         }}
       />
     </View>
