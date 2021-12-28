@@ -13,7 +13,7 @@ import { Context as AuthContext } from "../../context/AuthContext";
 import { Context as BirthdayContext } from "../../context/BirthdayContext";
 import { SCREENS } from "../../navigation/BirthdayNavScreenNames";
 
-export default function AddBirthdayScreen({ navigation }) {
+export default function AddBirthdayScreen({ route, navigation }) {
   //Context
   const authContext = useContext(AuthContext);
   const { addBirthday } = useContext(BirthdayContext);
@@ -56,6 +56,12 @@ export default function AddBirthdayScreen({ navigation }) {
     }
   }, [formFields]);
 
+  //This will get called when photo param has some value
+  //We are pushing photo value from TakePicureScreen
+  useEffect(() => {
+    setImage(route.params?.photo.base64);
+  }, [route.params?.photo]);
+
   //After text change
   const afterTextChange = (fieldname, fieldvalue) => {
     let errorMessage = "";
@@ -87,17 +93,13 @@ export default function AddBirthdayScreen({ navigation }) {
      **/
   };
 
-  const onImageCapture = (data) => {
-    setImage(data.base64);
-  };
-
   return (
     <View>
       <TouchableOpacity
         style={styles.imagecontainer}
         onPress={() => {
           navigation.navigate(SCREENS.TakePicture, {
-            onImageCapture: onImageCapture.bind(this),
+            CallbackScreenName: SCREENS.AddBirthday,
           });
         }}
       >

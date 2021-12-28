@@ -21,8 +21,12 @@ export default function TakePictureScreen({ navigation, route }) {
         base64: true,
       };
       let photo = await camera.takePictureAsync(options);
-      route.params.onImageCapture(photo);
-      navigation.goBack();
+
+      /* Instead of navigating hardcoded screenname 
+          we can get the parent screen name in the routes parameter and call it when capture call is done*/
+      if (route.params?.CallbackScreenName) {
+        navigation.navigate(route.params?.CallbackScreenName, { photo: photo });
+      }
     }
   };
 
