@@ -90,11 +90,11 @@ const addBirthday = (dispatch) => {
     });
 
     const newItem = {
-      image: image,
-      name: name,
-      email: email,
-      phone: phone,
-      date: date,
+      image: image ? image : "",
+      name: name ? name : "",
+      email: email ? email : "",
+      phone: phone ? phone : "",
+      date: date ? date : "",
     };
     const postListRef = ref(getDatabase(), token + "/people");
     const newPostRef = push(postListRef);
