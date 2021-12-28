@@ -12,6 +12,7 @@ import { Context as AuthContext } from "../context/AuthContext";
 import SettingsScreen from "../screens/SettingsScreen";
 import AddBirthdayScreen from "../screens/birthday/AddBirthdayScreen";
 import TakePictureScreen from "../screens/camera/TakePictureScreen";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -29,7 +30,26 @@ export function BirthdayNavigator() {
   return (
     <NavigationContainer>
       {state.token ? (
-        <Tab.Navigator>
+        <Tab.Navigator
+          screenOptions={({ route }) => ({
+            tabBarIcon: ({ focused, color, size }) => {
+              let iconName;
+
+              if (route.name === SCREENS.TodaysBirthday) {
+                iconName = focused ? "today" : "today-outline";
+              } else if (route.name === SCREENS.BirthdayList) {
+                iconName = focused ? "list" : "list-outline";
+              } else if (route.name === SCREENS.AddBirthdayTab) {
+                iconName = focused ? "add" : "add-outline";
+              } else if (route.name === SCREENS.Settings) {
+                iconName = focused ? "settings" : "settings-outline";
+              }
+              return <Ionicons name={iconName} size={size} color={color} />;
+            },
+            tabBarActiveTintColor: "tomato",
+            tabBarInactiveTintColor: "gray",
+          })}
+        >
           <Tab.Screen
             name={SCREENS.TodaysBirthday}
             component={TodaysBirthdayScreen}
@@ -38,7 +58,11 @@ export function BirthdayNavigator() {
             name={SCREENS.BirthdayList}
             component={BirthdayListScreen}
           />
-          <Tab.Screen name={SCREENS.AddBirthdayTab} component={AddBirthday} />
+          <Tab.Screen
+            options={{ headerShown: false }}
+            name={SCREENS.AddBirthdayTab}
+            component={AddBirthday}
+          />
           <Tab.Screen name={SCREENS.Settings} component={SettingsScreen} />
         </Tab.Navigator>
       ) : (
