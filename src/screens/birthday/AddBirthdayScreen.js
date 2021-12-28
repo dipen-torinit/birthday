@@ -1,5 +1,11 @@
 import React, { useContext, useState, useEffect } from "react";
-import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import {
   isNotEmpty,
   isValidDate,
@@ -94,7 +100,7 @@ export default function AddBirthdayScreen({ route, navigation }) {
   };
 
   return (
-    <View>
+    <ScrollView>
       <TouchableOpacity
         style={styles.imagecontainer}
         onPress={() => {
@@ -142,6 +148,10 @@ export default function AddBirthdayScreen({ route, navigation }) {
         defaultValue={date.value}
         errorMessage={date.error}
         onChangeText={(text) => {
+          const len = text.length;
+          if (len === 2 || len === 5) {
+            text = text + "/";
+          }
           afterTextChange("date", text);
         }}
         autoCapitalize="none"
@@ -154,7 +164,7 @@ export default function AddBirthdayScreen({ route, navigation }) {
           executeAddBirthday();
         }}
       />
-    </View>
+    </ScrollView>
   );
 }
 

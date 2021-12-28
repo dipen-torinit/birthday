@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Button, View } from "react-native";
+import { Button, View, Text } from "react-native";
 import {
   isNotEmpty,
   isValidPassword,
@@ -12,7 +12,7 @@ import { SCREENS } from "../../navigation/BirthdayNavScreenNames";
 
 export default function SignInScreen({ navigation }) {
   //Context
-  const { signIn } = useContext(AuthContext);
+  const { state, signIn } = useContext(AuthContext);
   const executeSignIn = () => {
     signIn({ username: username.value, password: password.value });
   };
@@ -68,6 +68,9 @@ export default function SignInScreen({ navigation }) {
 
   return (
     <View>
+      {state.error !== "" && (
+        <Text style={{ color: "red" }}>{state.error.message}</Text>
+      )}
       <InputField
         placeholder="Enter username"
         defaultValue={username.value}

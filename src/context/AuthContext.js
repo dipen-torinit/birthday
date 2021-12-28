@@ -10,18 +10,19 @@ import { auth } from "../firebase/Firebase";
 
 const initialState = {
   token: "",
+  error: "",
 };
 
 const authenticationReducer = (state, action) => {
   switch (action.type) {
     case AUTHENTICATE:
-      return { ...state, token: action.token };
+      return { ...state, token: action.token, error: action.error };
     case SIGNIN:
-      return { ...state, token: action.token };
+      return { ...state, token: action.token, error: action.error };
     case SIGNUP:
-      return { ...state, token: action.token };
+      return { ...state, token: action.token, error: action.error };
     case SIGNOUT:
-      return { ...state, token: "" };
+      return { ...state, token: "", error: "" };
     default:
       return state;
   }
@@ -68,6 +69,7 @@ const signUp = (dispatch) => {
       dispatch({
         type: SIGNUP,
         token: "",
+        error: error,
       });
     }
   };
@@ -87,6 +89,7 @@ const signIn = (dispatch) => {
       dispatch({
         type: SIGNIN,
         token: "",
+        error: error,
       });
     }
   };
