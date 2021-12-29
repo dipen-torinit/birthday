@@ -102,7 +102,7 @@ const addBirthday = (dispatch) => {
       .then(() => {
         dispatch({
           type: ADDBIRTHDAY,
-          hasSucceeded: false,
+          hasSucceeded: true,
           data: { ...newItem, id: newPostRef.key }, //Adding newly generated key in our local object for flatlist
         });
       })

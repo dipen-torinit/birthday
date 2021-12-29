@@ -1,11 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import {
-  View,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
+import { Image, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import {
   isNotEmpty,
   isValidDate,
@@ -18,11 +12,13 @@ import SubmitButton from "../../components/SubmitButton";
 import { Context as AuthContext } from "../../context/AuthContext";
 import { Context as BirthdayContext } from "../../context/BirthdayContext";
 import { SCREENS } from "../../navigation/BirthdayNavScreenNames";
+import ProgressBar from "../../components/ProgressBar";
+import { RESULT_LOADING, RESULT_SUCCESS } from "../../context/ActionType";
 
 export default function AddBirthdayScreen({ route, navigation }) {
   //Context
   const authContext = useContext(AuthContext);
-  const { addBirthday } = useContext(BirthdayContext);
+  const { state, addBirthday } = useContext(BirthdayContext);
   const executeAddBirthday = () => {
     const { name, email, phone, date } = formFields;
     addBirthday({
@@ -38,12 +34,13 @@ export default function AddBirthdayScreen({ route, navigation }) {
   //Local states
   const [disableActionButton, setDisableActionButton] = useState(true);
   const [image, setImage] = useState("");
-  const [formFields, setFormField] = useState({
+  const formFieldDefaultValue = {
     name: { value: "", error: "" },
     email: { value: "", error: "" },
     phone: { value: "", error: "" },
     date: { value: "", error: "" },
-  });
+  };
+  const [formFields, setFormField] = useState(formFieldDefaultValue);
   const { name, email, phone, date } = formFields;
 
   useEffect(() => {
@@ -59,8 +56,17 @@ export default function AddBirthdayScreen({ route, navigation }) {
           isNotEmpty(formFields.phone.error) ||
           isNotEmpty(formFields.date.error)
       );
+    } else {
+      setDisableActionButton(true);
     }
   }, [formFields]);
+
+  useEffect(() => {
+    if (state.result === RESULT_SUCCESS) {
+      setImage("");
+      setFormField(formFieldDefaultValue);
+    }
+  }, [state.result]);
 
   //This will get called when photo param has some value
   //We are pushing photo value from TakePicureScreen
@@ -156,7 +162,7 @@ export default function AddBirthdayScreen({ route, navigation }) {
         }}
         autoCapitalize="none"
       />
-
+      {state.result === RESULT_LOADING && <ProgressBar />}
       <SubmitButton
         label="Add Birthday"
         disabled={disableActionButton}
